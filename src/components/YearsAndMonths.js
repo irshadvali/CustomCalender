@@ -48,7 +48,7 @@ class YearsAndMonths extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Header>
+        <Header backgroundColor={"#e6e6e6"}>
           <Header.LeftHeaderElem>
             <Image
               style={buttonStyle.imageStructure}

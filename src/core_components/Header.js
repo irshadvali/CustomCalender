@@ -8,12 +8,22 @@ class Header extends Component {
     if (this.props.children.length > 3) {
       throw new Error("Can not add more than 3 childrens");
     }
-    return <View style={styles.headerContainer}>{this.props.children}</View>;
+    return (
+      <View
+        style={[
+          styles.headerContainer,
+          { backgroundColor: this.props.backgroundColor }
+        ]}
+      >
+        {this.props.children}
+      </View>
+    );
   }
 }
 
 Header.propTypes = {
-  children: PropTypes.any
+  children: PropTypes.any,
+  backgroundColor: PropTypes.string
 };
 
 class LeftHeaderElem extends Component {
