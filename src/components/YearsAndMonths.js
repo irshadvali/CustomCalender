@@ -11,7 +11,9 @@ import {
 } from "react-native";
 
 import DateItem from "../components/DateItem";
-
+import Header from "../core_components/Header";
+import Button from "../core_components/Button";
+import buttonStyle from "../styles/ButtonStyles";
 const { width, height } = Dimensions.get("window");
 
 const equalWidth = width / 4;
@@ -46,6 +48,15 @@ class YearsAndMonths extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Header>
+          <Header.LeftHeaderElem>
+            <Image
+              style={buttonStyle.imageStructure}
+              source={require("../images/circleChecked.png")}
+            />
+            <Text style={{ color: "#fff" }}> Irshad </Text>
+          </Header.LeftHeaderElem>
+        </Header>
         <FlatList
           data={this.state.yearList}
           numColumns={4}
@@ -59,11 +70,10 @@ class YearsAndMonths extends Component {
               }}
             >
               <View>
-                <DateItem 
-                yearValue={item.year}
-                currentflag={item.currentflag}
-
-                 />
+                <DateItem
+                  yearValue={item.year}
+                  currentflag={item.currentflag}
+                />
               </View>
             </View>
           )}
