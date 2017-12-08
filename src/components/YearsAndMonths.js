@@ -56,6 +56,9 @@ class YearsAndMonths extends Component {
   dateItem(item) {
     Alert.alert(""+item.year);
   }
+  monthItem(item) {
+    Alert.alert(""+item.month);
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -108,7 +111,7 @@ class YearsAndMonths extends Component {
                   itemvalue={item}
                   monthnumber={this.state.monthnumber}
                   onPress={item => {
-                    this.dateItem(item)
+                    this.monthItem(item)
                   }}
                 />
               </View>
