@@ -15,8 +15,13 @@ const YearAndMonthStyles = StyleSheet.create({
   yearText: {
     color: "#fff",
     fontSize: 16,
-    fontFamily: "Lato-Heavy",
     textAlign: "center"
+  },
+  yearTextRed: {
+    color: "#d00000",
+    fontSize: 16,
+    textAlign: "center",
+    fontWeight: "bold"
   }
 });
 

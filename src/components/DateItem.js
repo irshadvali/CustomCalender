@@ -4,10 +4,21 @@ import { View, Text } from "react-native";
 import styles from "../styles/YearAndMonthStyles";
 import PropTypes from "prop-types";
 class DateItem extends Component {
+  componentWillMount() {
+    console.log(this.props.currentflag);
+  }
+  textStylefunction() {
+    console.log(this.props.currentflag);
+    if (this.props.currentflag == 1) {
+      return <Text style={styles.yearTextRed}> {this.props.yearValue}</Text>;
+    } else {
+      return <Text style={styles.yearText}> {this.props.yearValue}</Text>;
+    }
+  }
   render() {
     return (
       <View style={styles.gridViewContainer}>
-        <Text style={styles.yearText}> {this.props.yearValue}</Text>
+        <Text style={styles.yearText}> {this.textStylefunction()}</Text>
       </View>
     );
   }
