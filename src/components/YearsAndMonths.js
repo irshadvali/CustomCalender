@@ -10,10 +10,12 @@ import {
   Alert
 } from "react-native";
 
-import DateItem from "../components/DateItem";
+import YearItem from "../components/YearItem";
+import MonthItem from "../components/MonthItem";
 import Header from "../core_components/Header";
 import Button from "../core_components/Button";
 import buttonStyle from "../styles/ButtonStyles";
+import MonthList from "../utils/MonthList"
 const { width, height } = Dimensions.get("window");
 
 const equalWidth = width / 4;
@@ -22,7 +24,9 @@ class YearsAndMonths extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      yearList: []
+      yearList: [],
+      monthList: MonthList.monthList,
+      monthnumber:1
     };
   }
   componentWillMount() {
@@ -43,7 +47,14 @@ class YearsAndMonths extends Component {
     this.setState({
       yearList: listY
     });
+    this.setState({
+      monthnumber:parseInt(today.getMonth() + 1)
+    });
     console.log(listY);
+  }
+
+  dateItem(item) {
+    Alert.alert(""+item.year);
   }
   render() {
     return (
@@ -70,9 +81,35 @@ class YearsAndMonths extends Component {
               }}
             >
               <View>
-                <DateItem
-                  yearValue={item.year}
-                  currentflag={item.currentflag}
+                <YearItem
+                  itemvalue={item}
+                  onPress={item => {
+                    this.dateItem(item)
+                  }}
+                />
+              </View>
+            </View>
+          )}
+        />
+             <FlatList
+          data={this.state.monthList}
+          numColumns={4}
+          keyExtractor={(item, index) => index}
+          renderItem={({ item }) => (
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "column",
+                margin: 1
+              }}
+            >
+              <View>
+                <MonthItem
+                  itemvalue={item}
+                  monthnumber={this.state.monthnumber}
+                  onPress={item => {
+                    this.dateItem(item)
+                  }}
                 />
               </View>
             </View>
