@@ -18,7 +18,7 @@ import buttonStyle from "../styles/ButtonStyles";
 import MonthList from "../utils/MonthList"
 const { width, height } = Dimensions.get("window");
 
-const equalWidth = width / 4;
+// const equalWidth = width / 4;
 
 class YearsAndMonths extends Component {
   constructor(props) {
@@ -26,7 +26,8 @@ class YearsAndMonths extends Component {
     this.state = {
       yearList: [],
       monthList: MonthList.monthList,
-      monthnumber:1
+      monthnumber:1,
+      noOfDate:[]
     };
   }
   componentWillMount() {
@@ -51,6 +52,45 @@ class YearsAndMonths extends Component {
       monthnumber:parseInt(today.getMonth() + 1)
     });
     console.log(listY);
+
+    var year = currentYear;
+    var month=parseInt(today.getMonth());
+    var numberOfDay;
+    var numberOfDayBeforeMonth;
+    if(month==0 || month== 2 || month== 4 || month== 6 || month== 7 || month== 9 || month== 11)
+    {
+    numberOfDay=32;
+    numberOfDayBeforeMonth=31
+    }
+    else if(month==1){
+    numberOfDay=29
+    }
+    else{
+    numberOfDay=31
+    }
+    
+    var date = new Date(year,month,1);
+    tempDay=date.getDay();
+    daylist=[]
+    for(var j=0; j<tempDay;j++ ){
+    
+    var olddate=numberOfDayBeforeMonth-(tempDay-j);
+    
+    daylist.push({day:j,monthdate:olddate})
+    }
+    for(var i=tempDay; i<= 42; i++){
+    //var x=i;
+    var y=7;
+    var actDay =i%y;
+    var tempdate=i-(tempDay-1);
+    actDate=tempdate%numberOfDay
+    
+    daylist.push({day:actDay,monthdate:actDate})
+    }
+    console.log(daylist);
+    this.setState({
+      noOfDate:daylist
+    });
   }
 
   dateItem(item) {
