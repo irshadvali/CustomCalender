@@ -71,6 +71,7 @@ class YearsAndMonths extends Component {
             <Text style={{ color: "#fff" }}> Irshad </Text>
           </Header.LeftHeaderElem>
         </Header>
+        <View>
         <FlatList
           data={this.state.yearList}
           numColumns={4}
@@ -94,6 +95,8 @@ class YearsAndMonths extends Component {
             </View>
           )}
         />
+         </View>
+         <View>
              <FlatList
           data={this.state.monthList}
           numColumns={4}
@@ -118,6 +121,7 @@ class YearsAndMonths extends Component {
             </View>
           )}
         />
+        </View>
       </View>
     );
   }
