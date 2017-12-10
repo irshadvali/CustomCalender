@@ -37,11 +37,23 @@ class DayItem extends Component {
         return <Text style={styles.unseenTextRed}> {this.props.itemvalue.monthdate}</Text>;
       }
       else{
-        return <Text style={styles.yearTextRed}> {this.props.itemvalue.monthdate}</Text>;
+        if(this.props.itemvalue.currentdayFlag == 1 && this.props.itemvalue.currentYearflag == 1){
+          return <Text style={styles.currentDateText}> {this.props.itemvalue.monthdate}</Text>;
+        }
+        else{
+          return <Text style={styles.yearTextRed}> {this.props.itemvalue.monthdate}</Text>;
+        }
+       
       }
-      return <Text style={styles.yearTextRed}> {this.props.itemvalue.monthdate}</Text>;
+      
     } else {
-      return <Text style={styles.yearText}> {this.props.itemvalue.monthdate}</Text>;
+      if((this.props.itemvalue.currentdayFlag==1) && (this.props.itemvalue.currentYearflag==1)){
+        return <Text style={styles.currentDateText}> {this.props.itemvalue.monthdate}</Text>;
+      }
+      else{
+        return <Text style={styles.yearText}> {this.props.itemvalue.monthdate}</Text>;
+      }
+      
     }
   }
   render() {
@@ -62,12 +74,16 @@ DayItem.PropTypes = {
   onPress: PropTypes.func,
   itemvalue:PropTypes.object,
   monthnumber:PropTypes.number,
-  currentMonthFlags:PropTypes.number
+  currentMonthFlags:PropTypes.number,
+  currentYearflag:PropTypes.number,
+  currentdayFlag:PropTypes.number,
 };
 
 DayItem.defaultProps = {
   itemvalue: [],
   currentflag: 0,
   monthnumber:1,
-  currentMonthFlags:0
+  currentMonthFlags:0,
+  currentYearflag:0,
+  currentdayFlag:0
 };

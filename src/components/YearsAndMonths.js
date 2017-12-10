@@ -43,6 +43,7 @@ class YearsAndMonths extends Component {
     //     "/" +
     //     today.getFullYear()
     // );
+    var currentday=today.getDate();
     var listY = [];
     var currentYear = parseInt(today.getFullYear());
     for (var i = currentYear - 5; i <= currentYear + 6; i++) {
@@ -71,7 +72,12 @@ class YearsAndMonths extends Component {
     else {
       numberOfDay = 31
     }
-
+/*
+in this   var date = new Date(year, month, 1);
+i am passing current year and month, 
+if i will change year and function,
+then i have to pass that year and month.
+*/
     var date = new Date(year, month, 1);
     tempDay = date.getDay();
     daylist = [];
@@ -80,7 +86,7 @@ class YearsAndMonths extends Component {
 
       var olddate = numberOfDayBeforeMonth - (tempDay - j);
       currentMonthFlag=0;
-      daylist.push({ day: j, monthdate: olddate, currentMonth:currentMonthFlag})
+      daylist.push({ day: j, monthdate: olddate, currentMonth:currentMonthFlag,currentdayFlag:0,currentYearflag: year == currentYear ? 1 : 0})
     }
     for (var i = tempDay; i <= 41; i++) {
       //var x=i;
@@ -97,7 +103,7 @@ class YearsAndMonths extends Component {
         actDate = tempdate % numberOfDay
         currentMonthFlag=1;
       }
-      daylist.push({ day: actDay, monthdate: actDate,currentMonth:currentMonthFlag })
+      daylist.push({ day: actDay, monthdate: actDate,currentMonth:currentMonthFlag,currentdayFlag: currentday == actDate ? 1 : 0, currentYearflag: year == currentYear ? 1 : 0 })
     }
     console.log(daylist);
     this.setState({

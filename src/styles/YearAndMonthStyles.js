@@ -33,6 +33,12 @@ const YearAndMonthStyles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold"
   },
+  currentDateText: {
+    color: "#01579B",
+    fontSize: 16,
+    textAlign: "center",
+    fontWeight: "bold"
+  },
 });
 
 export default YearAndMonthStyles;
