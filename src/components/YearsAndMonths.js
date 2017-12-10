@@ -12,10 +12,13 @@ import {
 
 import YearItem from "../components/YearItem";
 import MonthItem from "../components/MonthItem";
+import DayHeaderItem from "../components/DayHeaderItem"
 import Header from "../core_components/Header";
 import Button from "../core_components/Button";
 import buttonStyle from "../styles/ButtonStyles";
 import MonthList from "../utils/MonthList"
+import DayHeader from "../utils/DayHeader"
+import DayItem from "../components/DayItem"
 const { width, height } = Dimensions.get("window");
 
 // const equalWidth = width / 4;
@@ -26,8 +29,9 @@ class YearsAndMonths extends Component {
     this.state = {
       yearList: [],
       monthList: MonthList.monthList,
-      monthnumber:1,
-      noOfDate:[]
+      monthnumber: 1,
+      noOfDate: [],
+      dayHeaderList:DayHeader.dayHeaderList
     };
   }
   componentWillMount() {
@@ -49,55 +53,63 @@ class YearsAndMonths extends Component {
       yearList: listY
     });
     this.setState({
-      monthnumber:parseInt(today.getMonth() + 1)
+      monthnumber: parseInt(today.getMonth() + 1)
     });
     console.log(listY);
 
     var year = currentYear;
-    var month=parseInt(today.getMonth());
+    var month = parseInt(today.getMonth());
     var numberOfDay;
     var numberOfDayBeforeMonth;
-    if(month==0 || month== 2 || month== 4 || month== 6 || month== 7 || month== 9 || month== 11)
-    {
-    numberOfDay=32;
-    numberOfDayBeforeMonth=31
+    if (month == 0 || month == 2 || month == 4 || month == 6 || month == 7 || month == 9 || month == 11) {
+      numberOfDay = 32;
+      numberOfDayBeforeMonth = 31
     }
-    else if(month==1){
-    numberOfDay=29
+    else if (month == 1) {
+      numberOfDay = 29
     }
-    else{
-    numberOfDay=31
+    else {
+      numberOfDay = 31
     }
-    
-    var date = new Date(year,month,1);
-    tempDay=date.getDay();
-    daylist=[]
-    for(var j=0; j<tempDay;j++ ){
-    
-    var olddate=numberOfDayBeforeMonth-(tempDay-j);
-    
-    daylist.push({day:j,monthdate:olddate})
+
+    var date = new Date(year, month, 1);
+    tempDay = date.getDay();
+    daylist = []
+    for (var j = 0; j < tempDay; j++) {
+
+      var olddate = numberOfDayBeforeMonth - (tempDay - j);
+
+      daylist.push({ day: j, monthdate: olddate })
     }
-    for(var i=tempDay; i<= 42; i++){
-    //var x=i;
-    var y=7;
-    var actDay =i%y;
-    var tempdate=i-(tempDay-1);
-    actDate=tempdate%numberOfDay
-    
-    daylist.push({day:actDay,monthdate:actDate})
+    for (var i = tempDay; i <= 41; i++) {
+      //var x=i;
+      var y = 7;
+      var actDay = i % y;
+      var tempdate = i - (tempDay - 1);
+      var actDate;
+if(tempdate >(numberOfDay-1)){
+  acttwoDate = tempdate % numberOfDay
+  actDate=acttwoDate+1;
+}else{
+  actDate = tempdate % numberOfDay
+}
+
+     
+
+
+      daylist.push({ day: actDay, monthdate: actDate })
     }
     console.log(daylist);
     this.setState({
-      noOfDate:daylist
+      noOfDate: daylist
     });
   }
 
   dateItem(item) {
-    Alert.alert(""+item.year);
+    Alert.alert("" + item.year);
   }
   monthItem(item) {
-    Alert.alert(""+item.month);
+    Alert.alert("" + item.month);
   }
   render() {
     return (
@@ -112,55 +124,102 @@ class YearsAndMonths extends Component {
           </Header.LeftHeaderElem>
         </Header>
         <View>
-        <FlatList
-          data={this.state.yearList}
-          numColumns={4}
-          keyExtractor={(item, index) => index}
-          renderItem={({ item }) => (
-            <View
-              style={{
-                flex: 1,
-                flexDirection: "column",
-                margin: 1
-              }}
-            >
-              <View>
-                <YearItem
-                  itemvalue={item}
-                  onPress={item => {
-                    this.dateItem(item)
-                  }}
-                />
+          <FlatList
+            data={this.state.yearList}
+            numColumns={4}
+            keyExtractor={(item, index) => index}
+            renderItem={({ item }) => (
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "column",
+                  margin: 1
+                }}
+              >
+                <View>
+                  <YearItem
+                    itemvalue={item}
+                    onPress={item => {
+                      this.dateItem(item)
+                    }}
+                  />
+                </View>
               </View>
-            </View>
-          )}
-        />
-         </View>
-         <View>
-             <FlatList
-          data={this.state.monthList}
-          numColumns={4}
-          keyExtractor={(item, index) => index}
-          renderItem={({ item }) => (
-            <View
-              style={{
-                flex: 1,
-                flexDirection: "column",
-                margin: 1
-              }}
-            >
-              <View>
-                <MonthItem
-                  itemvalue={item}
-                  monthnumber={this.state.monthnumber}
-                  onPress={item => {
-                    this.monthItem(item)
-                  }}
-                />
+            )}
+          />
+        </View>
+        <View>
+          <FlatList
+            data={this.state.monthList}
+            numColumns={4}
+            keyExtractor={(item, index) => index}
+            renderItem={({ item }) => (
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "column",
+                  margin: 1
+                }}
+              >
+                <View>
+                  <MonthItem
+                    itemvalue={item}
+                    monthnumber={this.state.monthnumber}
+                    onPress={item => {
+                      this.monthItem(item)
+                    }}
+                  />
+                </View>
+
               </View>
-            </View>
-          )}
-        />
+            )}
+          />
+        </View>
+        <View>
+          <FlatList
+            data={this.state.dayHeaderList}
+            numColumns={7}
+            keyExtractor={(item, index) => index}
+            renderItem={({ item }) => (
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "column",
+                  margin: 1
+                }}
+              >
+                <View>
+                  <DayHeaderItem
+                    itemvalue={item}
+                  />
+                </View>
+
+              </View>
+            )}
+          />
+        </View>
+        <View>
+          <FlatList
+            data={this.state.noOfDate}
+            numColumns={7}
+            keyExtractor={(item, index) => index}
+            renderItem={({ item }) => (
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "column",
+                  margin: 1
+                }}
+              >
+                <View>
+                  <DayItem
+                    itemvalue={item}
+                  />
+                </View>
+
+              </View>
+            )}
+          />
         </View>
       </View>
     );

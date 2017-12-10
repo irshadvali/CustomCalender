@@ -3,31 +3,31 @@ const DayHeader = {
     dayHeaderList: [
       {
         id: 0,
-        dayname: "SUN"
+        dayname: "SU"
       },
       {
         id: 1,
-        dayname: "MON"
+        dayname: "MO"
       },
       {
         id: 2,
-        dayname: "TUE"
+        dayname: "TU"
       },
       {
         id: 3,
-        dayname: "WED"
+        dayname: "WE"
       },
       {
         id: 4,
-        dayname: "THU"
+        dayname: "TH"
       },
       {
         id: 5,
-        dayname: "FRI"
+        dayname: "FR"
       },
       {
         id: 6,
-        dayname: "SAT"
+        dayname: "SA"
       }
     ]
   };
