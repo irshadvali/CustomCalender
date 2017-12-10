@@ -31,7 +31,7 @@ class YearsAndMonths extends Component {
       monthList: MonthList.monthList,
       monthnumber: 1,
       noOfDate: [],
-      dayHeaderList:DayHeader.dayHeaderList
+      dayHeaderList: DayHeader.dayHeaderList
     };
   }
   componentWillMount() {
@@ -74,12 +74,13 @@ class YearsAndMonths extends Component {
 
     var date = new Date(year, month, 1);
     tempDay = date.getDay();
-    daylist = []
+    daylist = [];
+    var currentMonthFlag;
     for (var j = 0; j < tempDay; j++) {
 
       var olddate = numberOfDayBeforeMonth - (tempDay - j);
-
-      daylist.push({ day: j, monthdate: olddate })
+      currentMonthFlag=0;
+      daylist.push({ day: j, monthdate: olddate, currentMonth:currentMonthFlag})
     }
     for (var i = tempDay; i <= 41; i++) {
       //var x=i;
@@ -87,23 +88,22 @@ class YearsAndMonths extends Component {
       var actDay = i % y;
       var tempdate = i - (tempDay - 1);
       var actDate;
-if(tempdate >(numberOfDay-1)){
-  acttwoDate = tempdate % numberOfDay
-  actDate=acttwoDate+1;
-}else{
-  actDate = tempdate % numberOfDay
-}
-
      
-
-
-      daylist.push({ day: actDay, monthdate: actDate })
+      if (tempdate > (numberOfDay - 1)) {
+        acttwoDate = tempdate % numberOfDay
+        actDate = acttwoDate + 1;
+        currentMonthFlag=0;
+      } else {
+        actDate = tempdate % numberOfDay
+        currentMonthFlag=1;
+      }
+      daylist.push({ day: actDay, monthdate: actDate,currentMonth:currentMonthFlag })
     }
     console.log(daylist);
     this.setState({
       noOfDate: daylist
     });
-  }
+  }z
 
   dateItem(item) {
     Alert.alert("" + item.year);

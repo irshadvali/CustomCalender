@@ -22,7 +22,17 @@ const YearAndMonthStyles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     fontWeight: "bold"
-  }
+  },
+  otherMonthDayContainer:{
+    padding: 10,
+    backgroundColor:"#e6e6e6"
+  },
+  unseenTextRed: {
+    color: "#f9937f",
+    fontSize: 16,
+    textAlign: "center",
+    fontWeight: "bold"
+  },
 });
 
 export default YearAndMonthStyles;
