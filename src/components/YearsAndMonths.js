@@ -64,13 +64,33 @@ class YearsAndMonths extends Component {
     var numberOfDayBeforeMonth;
     if (month == 0 || month == 2 || month == 4 || month == 6 || month == 7 || month == 9 || month == 11) {
       numberOfDay = 32;
-      numberOfDayBeforeMonth = 31
     }
     else if (month == 1) {
-      numberOfDay = 29
+      if(year % 4==0){
+        numberOfDay = 30
+      }
+      else{
+        numberOfDay = 29
+      }
+      
     }
     else {
       numberOfDay = 31
+    }
+    if (month == 0 || month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10) {
+      numberOfDayBeforeMonth = 32
+    }
+    else if (month == 2) {
+      if(year % 4==0){
+        numberOfDayBeforeMonth = 30
+      }
+      else{
+        numberOfDayBeforeMonth = 29
+      }
+      
+    }
+    else {
+      numberOfDayBeforeMonth = 31
     }
 /*
 in this   var date = new Date(year, month, 1);
