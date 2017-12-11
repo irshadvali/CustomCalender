@@ -1,29 +1,17 @@
-import _ from 'lodash';
+import { SELECT_YEAR, SELECT_MONTH } from "../utils/Constant";
 
-const initialState = {
- 
-  User: [],
-  isConnected: false,
-  error:'',
-};
-
-const selectedYear = (state = initialState, action) =>{
+const selectedYear = (
+  state = {
+    selectedYearValue: 0
+  },
+  action
+) => {
   switch (action.type) {
-    case 'FETCH_USER':
-      return Object.assign({}, state, {
-        User: action.resultJson.results,
-      });
-    case 'FETCH_USER_FAILURE':
-      return Object.assign({}, state, {
-       error:'Error while fetching'
-      });
-     case 'CHANGE_CONNECTION_STATUS':
-      return Object.assign({}, state, {
-        isConnected: action.isConnected,
-      });
+    case SELECT_YEAR:
+
+      return { ...state, selectedYearValue: action.payload };
     default:
       return state;
   }
-}
-
+};
 export default selectedYear;
