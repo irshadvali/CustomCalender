@@ -12,13 +12,29 @@ import {
   View
 } from 'react-native';
 import YearsAndMonths from "./src/components/YearsAndMonths"
+import { Provider } from 'react-redux';
+import configureStore from './src/utils/store';
 
 
 
 export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true,
+      store: configureStore(() => this.setState({ isLoading: false })),
+    };
+  }
+
+  componentWillMount() {
+    console.disableYellowBox = true;
+  }
   render() {
+    if (this.state.isLoading) return null;
     return (
-       <YearsAndMonths />
+      <Provider store={this.state.store}>
+        <YearsAndMonths />
+      </Provider>
     );
   }
 }
