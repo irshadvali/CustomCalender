@@ -44,6 +44,8 @@ class YearsAndMonths extends Component {
     var currentYr = parseInt(today.getFullYear());
     var currentMn = parseInt(today.getMonth());
     this._listYearMonth(currentYr, currentMn);
+    this.props.selectedYear(currentYr);
+    this.props.selectedMonth(currentMn);
   }
 
   _listYearMonth = (selectedYearCustom, selectedMonthCustom) => {

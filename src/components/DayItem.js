@@ -54,7 +54,8 @@ class DayItem extends Component {
       } else {
         if (
           this.props.itemvalue.currentdayFlag == 1 &&
-          this.props.itemvalue.currentYearflag == 1
+          this.props.itemvalue.currentYearflag == 1 &&
+          this.props.itemvalue.currentMonth == 1
         ) {
           return (
             <Text style={styles.currentDateText}>
@@ -74,7 +75,8 @@ class DayItem extends Component {
     } else {
       if (
         this.props.itemvalue.currentdayFlag == 1 &&
-        this.props.itemvalue.currentYearflag == 1
+        this.props.itemvalue.currentYearflag == 1 &&
+        this.props.itemvalue.currentMonth == 1
       ) {
         return (
           <Text style={styles.currentDateText}>
