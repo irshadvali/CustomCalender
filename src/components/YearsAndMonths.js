@@ -21,6 +21,8 @@ import DayHeader from "../utils/DayHeader";
 import DayItem from "../components/DayItem";
 import { connect } from "react-redux";
 import { selectedYear } from "../action/year.action";
+import { selectedMonth } from "../action/year.action";
+import { currentSelectedMonth } from "../action/year.action";
 const { width, height } = Dimensions.get("window");
 
 // const equalWidth = width / 4;
@@ -40,26 +42,22 @@ class YearsAndMonths extends Component {
   componentWillMount() {
     var today = new Date();
     var currentYr = parseInt(today.getFullYear());
-
-    this._listYearMonth(currentYr);
+    var currentMn = parseInt(today.getMonth());
+    this._listYearMonth(currentYr, currentMn);
   }
 
-  _listYearMonth = selectedYearCustom => {
+  _listYearMonth = (selectedYearCustom, selectedMonthCustom) => {
+    // this.props.currentSelectedMonth(selectedMonthCustom + 1);
+    var ffff = this.props.currentmonthnumber;
+    console.log("current month" + ffff);
     var today = new Date();
-    // Alert.alert(
-    //   today.getDate() +
-    //     "/" +
-    //     parseInt(today.getMonth() + 1) +
-    //     "/" +
-    //     today.getFullYear()
-    // );
+
     var currentday = today.getDate();
     var listY = [];
-    var currentYr = parseInt(today.getFullYear());
-    this.props.selectedYear(currentYr);
+    var currentYrLoop = parseInt(today.getFullYear());
     var selectedYear = selectedYearCustom;
     console.log(selectedYear);
-    for (var i = currentYr - 5; i <= currentYr + 6; i++) {
+    for (var i = currentYrLoop - 5; i <= currentYrLoop + 6; i++) {
       listY.push({ year: i, currentflag: selectedYear == i ? 1 : 0 });
       //listY.push({ year: i });
     }
@@ -67,12 +65,12 @@ class YearsAndMonths extends Component {
       yearList: listY
     });
     this.setState({
-      monthnumber: parseInt(today.getMonth() + 1)
+      monthnumber: selectedMonthCustom + 1
     });
     console.log(listY);
 
     var year = selectedYear;
-    var month = parseInt(today.getMonth());
+    var month = selectedMonthCustom;
     var numberOfDay;
     var numberOfDayBeforeMonth;
     if (
@@ -165,10 +163,11 @@ then i have to pass that year and month.
 
   yearItem(item) {
     this.props.selectedYear(item.year);
-    this._listYearMonth(item.year);
+    this._listYearMonth(item.year, this.props.selectedMonthValue);
   }
   monthItem(item) {
-    Alert.alert("" + item.month);
+    this.props.selectedMonth(item.id - 1);
+    this._listYearMonth(this.props.selectedYearValue, item.id - 1);
   }
   render() {
     return (
@@ -212,6 +211,7 @@ then i have to pass that year and month.
             data={this.state.monthList}
             numColumns={4}
             keyExtractor={(item, index) => index}
+            extraData={this.state}
             renderItem={({ item }) => (
               <View
                 style={{
@@ -257,6 +257,7 @@ then i have to pass that year and month.
           <FlatList
             data={this.state.noOfDate}
             numColumns={7}
+            extraData={this.state}
             keyExtractor={(item, index) => index}
             renderItem={({ item }) => (
               <View
@@ -288,10 +289,14 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    selectedYearValue: state.SELECTEDYEAR.selectedYearValue
+    selectedYearValue: state.SELECTEDYEAR.selectedYearValue,
+    selectedMonthValue: state.SELECTEDMONTH.selectedMonthValue,
+    monthNumberValue: state.CURRENTMONTHNUMBER.monthNumberValue
   };
 };
 
 export default connect(mapStateToProps, {
-  selectedYear
+  selectedYear,
+  selectedMonth,
+  currentSelectedMonth
 })(YearsAndMonths);
