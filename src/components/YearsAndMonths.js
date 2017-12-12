@@ -12,13 +12,15 @@ import {
 
 import YearItem from "../components/YearItem";
 import MonthItem from "../components/MonthItem";
-import DayHeaderItem from "../components/DayHeaderItem"
+import DayHeaderItem from "../components/DayHeaderItem";
 import Header from "../core_components/Header";
 import Button from "../core_components/Button";
 import buttonStyle from "../styles/ButtonStyles";
-import MonthList from "../utils/MonthList"
-import DayHeader from "../utils/DayHeader"
-import DayItem from "../components/DayItem"
+import MonthList from "../utils/MonthList";
+import DayHeader from "../utils/DayHeader";
+import DayItem from "../components/DayItem";
+import { connect } from "react-redux";
+import { selectedYear } from "../action/year.action";
 const { width, height } = Dimensions.get("window");
 
 // const equalWidth = width / 4;
@@ -33,8 +35,16 @@ class YearsAndMonths extends Component {
       noOfDate: [],
       dayHeaderList: DayHeader.dayHeaderList
     };
+    //  this._listYear = this._listYearMonth.bind();
   }
   componentWillMount() {
+    var today = new Date();
+    var currentYr = parseInt(today.getFullYear());
+
+    this._listYearMonth(currentYr);
+  }
+
+  _listYearMonth = selectedYearCustom => {
     var today = new Date();
     // Alert.alert(
     //   today.getDate() +
@@ -43,11 +53,14 @@ class YearsAndMonths extends Component {
     //     "/" +
     //     today.getFullYear()
     // );
-    var currentday=today.getDate();
+    var currentday = today.getDate();
     var listY = [];
-    var currentYear = parseInt(today.getFullYear());
-    for (var i = currentYear - 5; i <= currentYear + 6; i++) {
-      listY.push({ year: i, currentflag: currentYear == i ? 1 : 0 });
+    var currentYr = parseInt(today.getFullYear());
+    this.props.selectedYear(currentYr);
+    var selectedYear = selectedYearCustom;
+    console.log(selectedYear);
+    for (var i = currentYr - 5; i <= currentYr + 6; i++) {
+      listY.push({ year: i, currentflag: selectedYear == i ? 1 : 0 });
       //listY.push({ year: i });
     }
     this.setState({
@@ -58,41 +71,49 @@ class YearsAndMonths extends Component {
     });
     console.log(listY);
 
-    var year = currentYear;
+    var year = selectedYear;
     var month = parseInt(today.getMonth());
     var numberOfDay;
     var numberOfDayBeforeMonth;
-    if (month == 0 || month == 2 || month == 4 || month == 6 || month == 7 || month == 9 || month == 11) {
+    if (
+      month == 0 ||
+      month == 2 ||
+      month == 4 ||
+      month == 6 ||
+      month == 7 ||
+      month == 9 ||
+      month == 11
+    ) {
       numberOfDay = 32;
-    }
-    else if (month == 1) {
-      if(year % 4==0){
-        numberOfDay = 30
+    } else if (month == 1) {
+      if (year % 4 == 0) {
+        numberOfDay = 30;
+      } else {
+        numberOfDay = 29;
       }
-      else{
-        numberOfDay = 29
+    } else {
+      numberOfDay = 31;
+    }
+    if (
+      month == 0 ||
+      month == 1 ||
+      month == 3 ||
+      month == 5 ||
+      month == 7 ||
+      month == 8 ||
+      month == 10
+    ) {
+      numberOfDayBeforeMonth = 32;
+    } else if (month == 2) {
+      if (year % 4 == 0) {
+        numberOfDayBeforeMonth = 30;
+      } else {
+        numberOfDayBeforeMonth = 29;
       }
-      
+    } else {
+      numberOfDayBeforeMonth = 31;
     }
-    else {
-      numberOfDay = 31
-    }
-    if (month == 0 || month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10) {
-      numberOfDayBeforeMonth = 32
-    }
-    else if (month == 2) {
-      if(year % 4==0){
-        numberOfDayBeforeMonth = 30
-      }
-      else{
-        numberOfDayBeforeMonth = 29
-      }
-      
-    }
-    else {
-      numberOfDayBeforeMonth = 31
-    }
-/*
+    /*
 in this   var date = new Date(year, month, 1);
 i am passing current year and month, 
 if i will change year and function,
@@ -103,10 +124,15 @@ then i have to pass that year and month.
     daylist = [];
     var currentMonthFlag;
     for (var j = 0; j < tempDay; j++) {
-
       var olddate = numberOfDayBeforeMonth - (tempDay - j);
-      currentMonthFlag=0;
-      daylist.push({ day: j, monthdate: olddate, currentMonth:currentMonthFlag,currentdayFlag:0,currentYearflag: year == currentYear ? 1 : 0})
+      currentMonthFlag = 0;
+      daylist.push({
+        day: j,
+        monthdate: olddate,
+        currentMonth: currentMonthFlag,
+        currentdayFlag: 0,
+        currentYearflag: year == selectedYear ? 1 : 0
+      });
     }
     for (var i = tempDay; i <= 41; i++) {
       //var x=i;
@@ -114,25 +140,32 @@ then i have to pass that year and month.
       var actDay = i % y;
       var tempdate = i - (tempDay - 1);
       var actDate;
-     
-      if (tempdate > (numberOfDay - 1)) {
-        acttwoDate = tempdate % numberOfDay
+
+      if (tempdate > numberOfDay - 1) {
+        acttwoDate = tempdate % numberOfDay;
         actDate = acttwoDate + 1;
-        currentMonthFlag=0;
+        currentMonthFlag = 0;
       } else {
-        actDate = tempdate % numberOfDay
-        currentMonthFlag=1;
+        actDate = tempdate % numberOfDay;
+        currentMonthFlag = 1;
       }
-      daylist.push({ day: actDay, monthdate: actDate,currentMonth:currentMonthFlag,currentdayFlag: currentday == actDate ? 1 : 0, currentYearflag: year == currentYear ? 1 : 0 })
+      daylist.push({
+        day: actDay,
+        monthdate: actDate,
+        currentMonth: currentMonthFlag,
+        currentdayFlag: currentday == actDate ? 1 : 0,
+        currentYearflag: year == selectedYear ? 1 : 0
+      });
     }
     console.log(daylist);
     this.setState({
       noOfDate: daylist
     });
-  }z
+  };
 
-  dateItem(item) {
-    Alert.alert("" + item.year);
+  yearItem(item) {
+    this.props.selectedYear(item.year);
+    this._listYearMonth(item.year);
   }
   monthItem(item) {
     Alert.alert("" + item.month);
@@ -166,7 +199,7 @@ then i have to pass that year and month.
                   <YearItem
                     itemvalue={item}
                     onPress={item => {
-                      this.dateItem(item)
+                      this.yearItem(item);
                     }}
                   />
                 </View>
@@ -192,11 +225,10 @@ then i have to pass that year and month.
                     itemvalue={item}
                     monthnumber={this.state.monthnumber}
                     onPress={item => {
-                      this.monthItem(item)
+                      this.monthItem(item);
                     }}
                   />
                 </View>
-
               </View>
             )}
           />
@@ -215,11 +247,8 @@ then i have to pass that year and month.
                 }}
               >
                 <View>
-                  <DayHeaderItem
-                    itemvalue={item}
-                  />
+                  <DayHeaderItem itemvalue={item} />
                 </View>
-
               </View>
             )}
           />
@@ -238,11 +267,8 @@ then i have to pass that year and month.
                 }}
               >
                 <View>
-                  <DayItem
-                    itemvalue={item}
-                  />
+                  <DayItem itemvalue={item} />
                 </View>
-
               </View>
             )}
           />
@@ -260,4 +286,12 @@ const styles = StyleSheet.create({
   }
 });
 
-export default YearsAndMonths;
+const mapStateToProps = state => {
+  return {
+    selectedYearValue: state.SELECTEDYEAR.selectedYearValue
+  };
+};
+
+export default connect(mapStateToProps, {
+  selectedYear
+})(YearsAndMonths);
