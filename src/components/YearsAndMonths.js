@@ -268,7 +268,12 @@ then i have to pass that year and month.
                 }}
               >
                 <View>
-                  <DayItem itemvalue={item} />
+                  <DayItem
+                    itemvalue={item}
+                    onPress={item => {
+                      Alert.alert(item.actDate);
+                    }}
+                  />
                 </View>
               </View>
             )}
