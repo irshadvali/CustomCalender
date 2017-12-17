@@ -6,8 +6,8 @@ import {
   View,
   Image,
   FlatList,
-  Dimensions,
-  Alert
+  Alert,
+  StatusBar
 } from "react-native";
 
 import YearItem from "../components/YearItem";
@@ -23,7 +23,8 @@ import { connect } from "react-redux";
 import { selectedYear } from "../action/year.action";
 import { selectedMonth } from "../action/year.action";
 import { currentSelectedMonth } from "../action/year.action";
-const { width, height } = Dimensions.get("window");
+const DEVICE_WIDTH = Dimensions.get("window").width;
+import Dimensions from "Dimensions";
 
 // const equalWidth = width / 4;
 
@@ -174,15 +175,24 @@ then i have to pass that year and month.
   render() {
     return (
       <View style={styles.container}>
-        <Header backgroundColor={"#e6e6e6"}>
-          <Header.LeftHeaderElem>
-            <Image
-              style={buttonStyle.imageStructure}
-              source={require("../images/circleChecked.png")}
-            />
-            <Text style={{ color: "#fff" }}> Irshad </Text>
-          </Header.LeftHeaderElem>
-        </Header>
+      <StatusBar hidden={true} />
+      
+      <View style={{height:56,backgroundColor:"#d00000"}}>
+      <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between',}}>
+        <View style={{height: 56,width:DEVICE_WIDTH/3, backgroundColor: 'powderblue'}} />
+        <View style={{height: 56,width:DEVICE_WIDTH/3, backgroundColor: 'skyblue'}} />
+        <View style={{height: 56, width:DEVICE_WIDTH/3,backgroundColor: 'steelblue'}} />
+      </View>
+      <View>
+
+
+      </View>
+      
+      
+      
+      
+      </View>
+
         <View>
           <FlatList
             data={this.state.yearList}
